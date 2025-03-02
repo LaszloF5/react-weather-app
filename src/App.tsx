@@ -39,10 +39,45 @@ interface Hourly {
   soil_moisture_0_to_1cm: number[];
 }
 
+interface Units {
+  time: string[];
+  temperature_2m: string[];
+  relative_humidity_2m: string[];
+  dew_point_2m: string[];
+  precipitation_probability: string[];
+  precipitation: string[];
+  cloud_cover: string[];
+  visibility: string[];
+  wind_speed_10m: string[];
+  wind_direction_10m: string[];
+  wind_gusts_10m: string[];
+  soil_temperature_0cm: string[];
+  soil_moisture_0_to_1cm: string[];
+}
+
 export default function App() {
   const [cityInfo, setCityInfo] = useState<object | null>(null);
 
+  const [sunset, setSunset] = useState<string>("");
+  const [sunrise, setSunrise] = useState<string>("");
+
   const [currentData, setCurrentData] = useState<CurrentData | null>(null);
+
+  const [hourlyUnits, setHourlyUnits] = useState<Units>({
+    time: [],
+    temperature_2m: [],
+    relative_humidity_2m: [],
+    dew_point_2m: [],
+    precipitation_probability: [],
+    precipitation: [],
+    cloud_cover: [],
+    visibility: [],
+    wind_speed_10m: [],
+    wind_direction_10m: [],
+    wind_gusts_10m: [],
+    soil_temperature_0cm: [],
+    soil_moisture_0_to_1cm: [],
+  });
 
   const [weeklyData, setWeeklyData] = useState<DailyData>({
     time: [],
@@ -88,6 +123,11 @@ export default function App() {
     setCurrentData(data.current);
     setWeeklyData(data.daily);
     setHourlyData(data.hourly);
+    setHourlyUnits(data.hourly_units);
+    setSunrise(data.daily.sunrise[0].slice(11).replace(':', ''));
+    setSunset(data.daily.sunset[0].slice(11).replace(':', ''));
+    console.log('sunrise: ', data.daily.sunrise[0].slice(11).replace(':', ''));
+    console.log('hourly time: ', data.hourly.time[0].slice(11).replace(':', ''));
   };
 
   const updateCity = async (city: string): Promise<void> => {
@@ -113,7 +153,12 @@ export default function App() {
       <h1>Weather app</h1>
       <LocationForm updateCity={updateCity} />
       <WeeklyForecast weeklyData={weeklyData} />
-      <HourToHourForecast hourlyData={hourlyData}/>
+      <HourToHourForecast
+        hourlyData={hourlyData}
+        hourlyUnits={hourlyUnits}
+        sunrise={sunrise}
+        sunset={sunset}
+      />
       {currentData != null ? (
         <ul>
           <li>Cloud Cover: {currentData.cloud_cover} %</li>
