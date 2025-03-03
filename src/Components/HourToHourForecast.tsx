@@ -113,7 +113,7 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
           </table>
         </>
       ) : (
-        ""
+        <p>No data available.</p>
       )}
     </div>
   );

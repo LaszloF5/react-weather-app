@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Header from "./Components/Header";
 import LocationForm from "./Components/LocationForm";
 import WeeklyForecast from "./Components/WeeklyForecast";
 import HourToHourForecast from "./Components/HourToHourForecast";
 import "./Styles/App.css";
-import { Interface } from "readline";
 
 interface CurrentData {
+  time: string;
   cloud_cover: number;
   temperature_2m: number;
   relative_humidity_2m: number;
@@ -57,6 +59,8 @@ interface Units {
 
 export default function App() {
   const [cityInfo, setCityInfo] = useState<object | null>(null);
+
+  const [toggleLocationForm, setToggleLocationForm] = useState<boolean>(false);
 
   const [sunset, setSunset] = useState<string>("");
   const [sunrise, setSunrise] = useState<string>("");
@@ -124,10 +128,13 @@ export default function App() {
     setWeeklyData(data.daily);
     setHourlyData(data.hourly);
     setHourlyUnits(data.hourly_units);
-    setSunrise(data.daily.sunrise[0].slice(11).replace(':', ''));
-    setSunset(data.daily.sunset[0].slice(11).replace(':', ''));
-    console.log('sunrise: ', data.daily.sunrise[0].slice(11).replace(':', ''));
-    console.log('hourly time: ', data.hourly.time[0].slice(11).replace(':', ''));
+    setSunrise(data.daily.sunrise[0].slice(11).replace(":", ""));
+    setSunset(data.daily.sunset[0].slice(11).replace(":", ""));
+    console.log("sunrise: ", data.daily.sunrise[0].slice(11).replace(":", ""));
+    console.log(
+      "hourly time: ",
+      data.hourly.time[0].slice(11).replace(":", "")
+    );
   };
 
   const updateCity = async (city: string): Promise<void> => {
@@ -149,27 +156,60 @@ export default function App() {
 
   return (
     <div className="App">
-      <header className="App-header"></header>
-      <h1>Weather app</h1>
-      <LocationForm updateCity={updateCity} />
-      <WeeklyForecast weeklyData={weeklyData} />
-      <HourToHourForecast
-        hourlyData={hourlyData}
-        hourlyUnits={hourlyUnits}
-        sunrise={sunrise}
-        sunset={sunset}
-      />
-      {currentData != null ? (
-        <ul>
-          <li>Cloud Cover: {currentData.cloud_cover} %</li>
-          <li>Temperature: {currentData.temperature_2m} °C</li>
-          <li>Humidity: {currentData.relative_humidity_2m} %</li>
-          <li>Wind Speed: {currentData.wind_speed_10m} km/h</li>
-          <li>Precipitation: {currentData.precipitation} mm</li>
-        </ul>
-      ) : (
-        ""
-      )}
+      <Router>
+        <Header setToggleLocationForm={setToggleLocationForm}/>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <h1>Weather app</h1>
+                {toggleLocationForm ? '' : <LocationForm updateCity={updateCity} setToggleLocationForm={setToggleLocationForm}/>}
+                <h2>15 percenként frissülő infók</h2>
+                {currentData != null && toggleLocationForm === true ? (
+                  <ul className="currentData-ul">
+                    <li className="currentData-ul_li">
+                      Last refresh time: {currentData.time.slice(11)}
+                    </li>
+                    <li className="currentData-ul_li">
+                      Cloud Cover: {currentData.cloud_cover} %
+                    </li>
+                    <li className="currentData-ul_li">
+                      Temperature: {currentData.temperature_2m} °C
+                    </li>
+                    <li className="currentData-ul_li">
+                      Humidity: {currentData.relative_humidity_2m} %
+                    </li>
+                    <li className="currentData-ul_li">
+                      Wind Speed: {currentData.wind_speed_10m} km/h
+                    </li>
+                    <li className="currentData-ul_li">
+                      Precipitation: {currentData.precipitation} mm
+                    </li>
+                  </ul>
+                ) : (
+                  ""
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/weekly-forecast"
+            element={<WeeklyForecast weeklyData={weeklyData} />}
+          />
+          <Route
+            path="/hour-to-hour-forecast"
+            element={
+              <HourToHourForecast
+                hourlyData={hourlyData}
+                hourlyUnits={hourlyUnits}
+                sunrise={sunrise}
+                sunset={sunset}
+              />
+            }
+          />
+        </Routes>
+      </Router>
     </div>
   );
 }

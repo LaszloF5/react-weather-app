@@ -1,4 +1,4 @@
-
+import "../Styles/WeatherIcon.css";
 
 const getWeatherIcon = (precipitation: number, cloudCover: number, time: string, sunrise: string, sunset: string): string => {
   const hour = parseInt(time.slice(11).replace(':', ''), 10);

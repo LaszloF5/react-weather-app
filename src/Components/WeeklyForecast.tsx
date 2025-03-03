@@ -51,7 +51,7 @@ const WeeklyForecast: React.FC<WeeklyForecastProps> = ({ weeklyData }) => {
           </table>
         </>
       ) : (
-        ""
+        <p>No data available.</p>
       )}
     </div>
   );

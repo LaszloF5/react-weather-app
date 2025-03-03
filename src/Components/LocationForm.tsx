@@ -1,6 +1,12 @@
 import React, {useState} from 'react'
+import "../Styles/LocationForm.css";
 
-export default function LocationForm({ updateCity }: { updateCity: (city: string) => void }) {
+interface LocationFormProps {
+  updateCity: (city: string) => void;
+  setToggleLocationForm: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function LocationForm({ updateCity, setToggleLocationForm }: LocationFormProps) {
     const [city, setCity] = useState<string>('');
     const [temp, setTemp] = useState<string>('');
 
@@ -10,6 +16,7 @@ export default function LocationForm({ updateCity }: { updateCity: (city: string
         updateCity(temp)
         console.log('Current city: ', temp);
         setTemp('');
+        setToggleLocationForm(true);
     }
 
     const handleCity = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,16 +24,17 @@ export default function LocationForm({ updateCity }: { updateCity: (city: string
     } 
 
   return (
-    <form method='post' action={"#"} onSubmit={handleSubmit}>
-        <label htmlFor="city-id">City: </label>
-      <input type="text" 
+    <form className='locationForm' method='post' action={"#"} onSubmit={handleSubmit}>
+        <label className='locationForm_label' htmlFor="city-id">City:
+      <input className='locationForm_input' type="text" 
       name="city" 
       id="city-id"
       placeholder='your city'
       value={temp} 
       required
       onChange={handleCity}/>
-      <button type="submit">Submit</button>
+      </label>
+      <button className='locationForm_button' type="submit">Submit</button>
     </form>
   )
 }
