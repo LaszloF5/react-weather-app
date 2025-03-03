@@ -60,6 +60,10 @@ interface Units {
 export default function App() {
   const [cityInfo, setCityInfo] = useState<object | null>(null);
 
+  const temperature24h: string[] = [];
+  const precipitation24h: string[] = [];
+
+
   const [toggleLocationForm, setToggleLocationForm] = useState<boolean>(false);
 
   const [sunset, setSunset] = useState<string>("");
@@ -124,17 +128,18 @@ export default function App() {
     setCityInfo({
       weather: data,
     });
+    for (let i = 0; i < 24; ++i) {
+      temperature24h.push(data.hourly.temperature_2m[i]);
+      precipitation24h.push(data.hourly.precipitation[i]);
+    }
     setCurrentData(data.current);
     setWeeklyData(data.daily);
     setHourlyData(data.hourly);
     setHourlyUnits(data.hourly_units);
     setSunrise(data.daily.sunrise[0].slice(11).replace(":", ""));
     setSunset(data.daily.sunset[0].slice(11).replace(":", ""));
-    console.log("sunrise: ", data.daily.sunrise[0].slice(11).replace(":", ""));
-    console.log(
-      "hourly time: ",
-      data.hourly.time[0].slice(11).replace(":", "")
-    );
+    console.log('Hőmérséklet: ', temperature24h);
+    console.log('csapadék: ', precipitation24h);
   };
 
   const updateCity = async (city: string): Promise<void> => {
@@ -162,10 +167,9 @@ export default function App() {
           <Route
             path="/"
             element={
-              <>
-                <h1>Weather app</h1>
+              <div className="homePage">
+                {/* <h1>Weather app</h1> */}
                 {toggleLocationForm ? '' : <LocationForm updateCity={updateCity} setToggleLocationForm={setToggleLocationForm}/>}
-                <h2>15 percenként frissülő infók</h2>
                 {currentData != null && toggleLocationForm === true ? (
                   <ul className="currentData-ul">
                     <li className="currentData-ul_li">
@@ -190,7 +194,7 @@ export default function App() {
                 ) : (
                   ""
                 )}
-              </>
+              </div>
             }
           />
           <Route
@@ -213,3 +217,8 @@ export default function App() {
     </div>
   );
 }
+
+/*
+  TODO:
+  A főoldalra a weekly adatokból csinálni egy chartot victory charttal, vagy óránként lebontásba az adott napról a főoldalon, és a weekly-nél lenne a weeklyről 1 chart.
+*/

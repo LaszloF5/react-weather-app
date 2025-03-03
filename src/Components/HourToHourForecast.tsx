@@ -1,4 +1,5 @@
 import React from "react";
+import "../Styles/HourToHourForecast.css";
 import WeatherIcon from "./WeatherIcon";
 
 interface Hourly {
@@ -47,10 +48,10 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
   sunset,
 }) => {
   return (
-    <div>
+    <div className="container">
       {hourlyData.time.length > 0 ? (
         <>
-          <h3>Hour to hour forecast</h3>
+          <h2>Hour to hour forecast</h2>
           <table>
             <thead>
               <tr>
@@ -94,6 +95,7 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
                     <td>
                       {hourlyData.wind_direction_10m[index]} °{" "}
                       <img
+                      className="table-arrow"
                         src={process.env.PUBLIC_URL + "/arrow.png"}
                         alt="arrow"
                         style={{
