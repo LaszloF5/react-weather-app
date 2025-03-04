@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import "../Styles/LocationForm.css";
-import { on } from 'events';
 
 interface LocationFormProps {
   updateCity: (city: string) => void;

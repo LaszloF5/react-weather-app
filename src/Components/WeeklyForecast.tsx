@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "../Styles/WeeklyForecast.css";
 
 interface DailyData {
@@ -16,6 +16,11 @@ interface WeeklyForecastProps {
 }
 
 const WeeklyForecast: React.FC<WeeklyForecastProps> = ({ weeklyData }) => {
+
+  useEffect(() => {
+    document.title = "Weather info | Weekly forecast";
+  }, []);
+
   return (
     <div className="weekly-container">
       {weeklyData.time.length > 0 ? (

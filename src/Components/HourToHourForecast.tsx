@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../Styles/HourToHourForecast.css";
 import WeatherIcon from "./WeatherIcon";
 
@@ -47,6 +47,9 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
   sunrise,
   sunset,
 }) => {
+    useEffect(() => {
+      document.title = "Weather info | Hour to hour forecast";
+    }, []);
   return (
     <div className="container">
       {hourlyData.time.length > 0 ? (

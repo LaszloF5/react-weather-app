@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./Components/Header";
 import LocationForm from "./Components/LocationForm";
@@ -70,6 +70,16 @@ interface Units {
 }
 
 export default function App() {
+  const [reminder, setReminder] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.title = "Weather info";
+  }, [reminder]);
+
+  const handleReminder = (): void => {
+    setReminder(!reminder);
+  };
+
   const [cityInfo, setCityInfo] = useState<object | null>(null);
 
   const [renderCity, setRenderCity] = useState<string | null>(null);
@@ -202,7 +212,7 @@ export default function App() {
   return (
     <div className="App">
       <Router>
-        <Header setToggleLocationForm={setToggleLocationForm} />
+        <Header setToggleLocationForm={setToggleLocationForm} handleReminder={handleReminder}/>
         <Routes>
           <Route
             path="/"
@@ -368,5 +378,5 @@ export default function App() {
 
 /*
   TODO:
-  Atooptip mértékegységek, datakey fontsize, current city,
+  Responsive design!
 */
