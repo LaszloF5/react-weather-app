@@ -1,4 +1,5 @@
 import React from "react";
+import "../Styles/WeeklyForecast.css";
 
 interface DailyData {
   time: string[];
@@ -16,12 +17,12 @@ interface WeeklyForecastProps {
 
 const WeeklyForecast: React.FC<WeeklyForecastProps> = ({ weeklyData }) => {
   return (
-    <div>
+    <div className="weekly-container">
       {weeklyData.time.length > 0 ? (
         <>
           {" "}
-          <h1>Weekly forecast</h1>
-          <table>
+          <h2 className="weekly-h2">Weekly forecast</h2>
+          <table className="weekly-table">
             <thead>
               <tr>
                 <th>Date</th>
@@ -51,7 +52,7 @@ const WeeklyForecast: React.FC<WeeklyForecastProps> = ({ weeklyData }) => {
           </table>
         </>
       ) : (
-        <p>No data available.</p>
+        <p className="response-p">No data available!</p>
       )}
     </div>
   );

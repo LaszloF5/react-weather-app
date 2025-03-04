@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  /* height: 95vh; */
 }
 
 .homePage {
@@ -8,17 +7,17 @@
   margin: 0;
   padding: 0;
   text-align: center;
-  height:  calc(100vh - 50px);
+  height: calc(100vh - 50px);
   width: 100%;
-   /*IDK 2 közül melyik legyen.*/
-   background-image: url("../Styles/sky-sunset-bg.jpg");
-   background-image: url("../Styles/sun-dark-clouds-bg.jpg");
+  background-image: url("../Styles/sun-dark-clouds-bg.jpg");
   background-position: center;
   background-size: cover;
+  background-attachment: fixed;
 }
 
 .currentData-ul {
-  width: 200px;
+  width: 250px;
+  height: 170px;
   position: absolute;
   top: 20px;
   left: 20px;
@@ -45,7 +44,64 @@
   z-index: -1; 
 } */
 
-
 h1 {
   margin-top: 0;
+}
+
+.chart-button {
+  width: 270px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ddd;
+  border: 2px solid #555;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.city-name {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ddd;
+  border: 2px solid #555;
+  border-radius: 5px;
+  padding: 10px 20px;
+  transform: translateX(-50%);
+}
+
+.city {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.temperature {
+  color: #8884d8;
+}
+
+.precipitation {
+  color: #82ca9d;
+}
+
+.chart-button:hover {
+  background-color: #333;
+  border-color: #666;
+}
+
+.chart-button:active {
+  background-color: #222;
+  border-color: #777;
+}
+
+.chart-style {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

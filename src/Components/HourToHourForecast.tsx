@@ -51,7 +51,7 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
     <div className="container">
       {hourlyData.time.length > 0 ? (
         <>
-          <h2>Hour to hour forecast</h2>
+          <h2 className="HTH-h2">Hour to hour forecast</h2>
           <table>
             <thead>
               <tr>
@@ -115,7 +115,7 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
           </table>
         </>
       ) : (
-        <p>No data available.</p>
+        <p className="response-p">No data available!</p>
       )}
     </div>
   );

@@ -1,0 +1,19 @@
+.weekly-h2 {
+    color: whitesmoke;
+    margin-bottom: 10px;
+}
+
+.weekly-container {
+    min-height: calc(100vh - 50px);
+    background-image: url("../Styles/sky-sunset-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.weekly-table {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

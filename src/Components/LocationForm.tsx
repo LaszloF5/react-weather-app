@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import "../Styles/LocationForm.css";
+import { on } from 'events';
 
 interface LocationFormProps {
   updateCity: (city: string) => void;
@@ -25,16 +26,17 @@ export default function LocationForm({ updateCity, setToggleLocationForm }: Loca
 
   return (
     <form className='locationForm' method='post' action={"#"} onSubmit={handleSubmit}>
-        <label className='locationForm_label' htmlFor="city-id">City:
+        <label className='locationForm_label' htmlFor="city-id">Choose a location:
+      </label>
       <input className='locationForm_input' type="text" 
       name="city" 
       id="city-id"
       placeholder='your city'
       value={temp} 
       required
+      autoFocus
       onChange={handleCity}/>
-      </label>
-      <button className='locationForm_button' type="submit">Submit</button>
+      <button className='locationForm_button' type="submit">Search</button>
     </form>
   )
 }

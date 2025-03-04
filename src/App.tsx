@@ -5,6 +5,18 @@ import LocationForm from "./Components/LocationForm";
 import WeeklyForecast from "./Components/WeeklyForecast";
 import HourToHourForecast from "./Components/HourToHourForecast";
 import "./Styles/App.css";
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 interface CurrentData {
   time: string;
@@ -60,9 +72,7 @@ interface Units {
 export default function App() {
   const [cityInfo, setCityInfo] = useState<object | null>(null);
 
-  const temperature24h: string[] = [];
-  const precipitation24h: string[] = [];
-
+  const [renderCity, setRenderCity] = useState<string | null>(null);
 
   const [toggleLocationForm, setToggleLocationForm] = useState<boolean>(false);
 
@@ -113,6 +123,18 @@ export default function App() {
     soil_moisture_0_to_1cm: [],
   });
 
+  // Chart varriables, ect.
+
+  const [dataChart, setDataChart] = useState<
+    { time: number; temperature: number; precipitation: number }[]
+  >([]);
+
+  const [toggleChart, setToggleChart] = useState<boolean>(false);
+
+  const handleChart = (): void => {
+    setToggleChart(!toggleChart);
+  };
+
   const currentCity = async (
     latitude: number,
     longitude: number
@@ -125,21 +147,37 @@ export default function App() {
     }
     const data = await response.json();
     console.log("Data from currentCity: ", data);
+
     setCityInfo({
       weather: data,
     });
+
+    const temperature24h: string[] = [];
+    const precipitation24h: string[] = [];
+
     for (let i = 0; i < 24; ++i) {
-      temperature24h.push(data.hourly.temperature_2m[i]);
-      precipitation24h.push(data.hourly.precipitation[i]);
+      temperature24h.push(data.hourly.temperature_2m[i].toString());
+      precipitation24h.push(data.hourly.precipitation[i].toString());
     }
+
     setCurrentData(data.current);
     setWeeklyData(data.daily);
     setHourlyData(data.hourly);
     setHourlyUnits(data.hourly_units);
     setSunrise(data.daily.sunrise[0].slice(11).replace(":", ""));
     setSunset(data.daily.sunset[0].slice(11).replace(":", ""));
-    console.log('Hőmérséklet: ', temperature24h);
-    console.log('csapadék: ', precipitation24h);
+
+    console.log("Hőmérséklet: ", temperature24h);
+    console.log("Csapadék: ", precipitation24h);
+
+    const newDataChart = temperature24h.map((temp, i) => ({
+      time: i,
+      temperature: parseFloat(temp),
+      precipitation: parseFloat(precipitation24h[i]),
+    }));
+
+    console.log("DataChart: ", newDataChart);
+    setDataChart(newDataChart);
   };
 
   const updateCity = async (city: string): Promise<void> => {
@@ -153,6 +191,8 @@ export default function App() {
       const data = await response.json();
       const latitude = data.results[0].latitude;
       const longitude = data.results[0].longitude;
+      let upperCity: string = city.charAt(0).toUpperCase() + city.slice(1);
+      setRenderCity(upperCity);
       currentCity(latitude, longitude);
     } catch (error) {
       console.error("Error fetching city data:", error);
@@ -162,35 +202,143 @@ export default function App() {
   return (
     <div className="App">
       <Router>
-        <Header setToggleLocationForm={setToggleLocationForm}/>
+        <Header setToggleLocationForm={setToggleLocationForm} />
         <Routes>
           <Route
             path="/"
             element={
               <div className="homePage">
                 {/* <h1>Weather app</h1> */}
-                {toggleLocationForm ? '' : <LocationForm updateCity={updateCity} setToggleLocationForm={setToggleLocationForm}/>}
+                {toggleLocationForm ? (
+                  ""
+                ) : (
+                  <>
+                    <LocationForm
+                      updateCity={updateCity}
+                      setToggleLocationForm={setToggleLocationForm}
+                    />
+                  </>
+                )}
                 {currentData != null && toggleLocationForm === true ? (
-                  <ul className="currentData-ul">
-                    <li className="currentData-ul_li">
-                      Last refresh time: {currentData.time.slice(11)}
-                    </li>
-                    <li className="currentData-ul_li">
-                      Cloud Cover: {currentData.cloud_cover} %
-                    </li>
-                    <li className="currentData-ul_li">
-                      Temperature: {currentData.temperature_2m} °C
-                    </li>
-                    <li className="currentData-ul_li">
-                      Humidity: {currentData.relative_humidity_2m} %
-                    </li>
-                    <li className="currentData-ul_li">
-                      Wind Speed: {currentData.wind_speed_10m} km/h
-                    </li>
-                    <li className="currentData-ul_li">
-                      Precipitation: {currentData.precipitation} mm
-                    </li>
-                  </ul>
+                  <>
+                    <h2 className="city-name">
+                      Current weather in <p className="city">{renderCity}</p>
+                    </h2>
+                    <ul className="currentData-ul">
+                      <li className="currentData-ul_li">
+                        Last refresh time: {currentData.time.slice(11)}
+                      </li>
+                      <li className="currentData-ul_li">
+                        Cloud Cover: {currentData.cloud_cover} %
+                      </li>
+                      <li className="currentData-ul_li">
+                        Temperature: {currentData.temperature_2m} °C
+                      </li>
+                      <li className="currentData-ul_li">
+                        Humidity: {currentData.relative_humidity_2m} %
+                      </li>
+                      <li className="currentData-ul_li">
+                        Wind Speed: {currentData.wind_speed_10m} km/h
+                      </li>
+                      <li className="currentData-ul_li">
+                        Precipitation: {currentData.precipitation} mm
+                      </li>
+                    </ul>
+                    <button className="chart-button" onClick={handleChart}>
+                      {toggleChart === false ? (
+                        <span>
+                          Swap to the{" "}
+                          <span className="precipitation">precipitation</span>{" "}
+                          chart
+                        </span>
+                      ) : (
+                        <span>
+                          Swap to the{" "}
+                          <span className="temperature">temperature</span> chart
+                        </span>
+                      )}
+                    </button>
+                    {toggleChart === false ? (
+                      <ResponsiveContainer
+                        width="95%"
+                        height={300}
+                        className="chart-style"
+                      >
+                        <LineChart data={dataChart}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#fff" />
+                          <XAxis
+                            dataKey="time"
+                            tick={{ fill: "red" }}
+                            tickFormatter={(time) => `${time} h`}
+                          />
+                          <YAxis
+                            yAxisId="left"
+                            tick={{ fill: "whitesmoke" }}
+                            tickFormatter={(left) => `${left}  °C`}
+                          />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: "#222",
+                              color: "#fff",
+                              fontSize: "14px",
+                            }}
+                            labelFormatter={(label) => `${label} h`}
+                            formatter={(value, name) => {
+                              if (name === "temperature") return `${value} °C`;
+                              return value;
+                            }}
+                          />
+                          <Legend />
+                          <Line
+                            type="monotone"
+                            dataKey="temperature"
+                            stroke="#8884d8"
+                            yAxisId="left"
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <ResponsiveContainer
+                        width="95%"
+                        height={300}
+                        className="chart-style"
+                      >
+                        <BarChart data={dataChart}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#fff" />
+                          <XAxis
+                            dataKey="time"
+                            tick={{ fill: "red" }}
+                            tickFormatter={(time) => `${time} h`}
+                          />
+                          <YAxis
+                            yAxisId="right"
+                            tick={{ fill: "whitesmoke" }}
+                            tickFormatter={(right) => `${right} mm`}
+                          />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: "#222",
+                              color: "#fff",
+                              fontSize: "14px",
+                            }}
+                            labelFormatter={(label) => `${label} h`}
+                            formatter={(value, name) => {
+                              if (name === "precipitation")
+                                return `${value} mm`;
+                              return value;
+                            }}
+                          />
+                          <Legend />
+                          <Bar
+                            dataKey="precipitation"
+                            fill="#82ca9d"
+                            yAxisId="right"
+                            label={{ fontSize: 16 }}
+                          />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    )}
+                  </>
                 ) : (
                   ""
                 )}
@@ -220,5 +368,5 @@ export default function App() {
 
 /*
   TODO:
-  A főoldalra a weekly adatokból csinálni egy chartot victory charttal, vagy óránként lebontásba az adott napról a főoldalon, és a weekly-nél lenne a weeklyről 1 chart.
+  Atooptip mértékegységek, datakey fontsize, current city,
 */
