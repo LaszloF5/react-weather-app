@@ -72,6 +72,16 @@ interface Units {
 export default function App() {
   const [reminder, setReminder] = useState<boolean>(false);
 
+  /* Responsive children components */
+
+  const [isMobileView, setIsMobileView] = useState<boolean>(window.innerWidth < 700);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobileView(window.innerWidth < 700);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [])
+
   useEffect(() => {
     document.title = "Weather info";
   }, [reminder]);
@@ -363,7 +373,7 @@ export default function App() {
           />
           <Route
             path="/weekly-forecast"
-            element={<WeeklyForecast weeklyData={weeklyData} />}
+            element={<WeeklyForecast weeklyData={weeklyData} isMobileView={isMobileView}/>}
           />
           <Route
             path="/hour-to-hour-forecast"
