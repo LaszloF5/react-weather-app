@@ -212,7 +212,10 @@ export default function App() {
   return (
     <div className="App">
       <Router>
-        <Header setToggleLocationForm={setToggleLocationForm} handleReminder={handleReminder}/>
+        <Header
+          setToggleLocationForm={setToggleLocationForm}
+          handleReminder={handleReminder}
+        />
         <Routes>
           <Route
             path="/"
@@ -231,43 +234,46 @@ export default function App() {
                 )}
                 {currentData != null && toggleLocationForm === true ? (
                   <>
-                    <h2 className="city-name">
-                      Current weather in <p className="city">{renderCity}</p>
-                    </h2>
-                    <ul className="currentData-ul">
-                      <li className="currentData-ul_li">
-                        Last refresh time: {currentData.time.slice(11)}
-                      </li>
-                      <li className="currentData-ul_li">
-                        Cloud Cover: {currentData.cloud_cover} %
-                      </li>
-                      <li className="currentData-ul_li">
-                        Temperature: {currentData.temperature_2m} °C
-                      </li>
-                      <li className="currentData-ul_li">
-                        Humidity: {currentData.relative_humidity_2m} %
-                      </li>
-                      <li className="currentData-ul_li">
-                        Wind Speed: {currentData.wind_speed_10m} km/h
-                      </li>
-                      <li className="currentData-ul_li">
-                        Precipitation: {currentData.precipitation} mm
-                      </li>
-                    </ul>
-                    <button className="chart-button" onClick={handleChart}>
-                      {toggleChart === false ? (
-                        <span>
-                          Swap to the{" "}
-                          <span className="precipitation">precipitation</span>{" "}
-                          chart
-                        </span>
-                      ) : (
-                        <span>
-                          Swap to the{" "}
-                          <span className="temperature">temperature</span> chart
-                        </span>
-                      )}
-                    </button>
+                    <div className="card-container">
+                      <h2 className="city-name">
+                        Current weather in <p className="city">{renderCity}</p>
+                      </h2>
+                      <ul className="currentData-ul">
+                        <li className="currentData-ul_li">
+                          Last refresh time: {currentData.time.slice(11)}
+                        </li>
+                        <li className="currentData-ul_li">
+                          Cloud Cover: {currentData.cloud_cover} %
+                        </li>
+                        <li className="currentData-ul_li">
+                          Temperature: {currentData.temperature_2m} °C
+                        </li>
+                        <li className="currentData-ul_li">
+                          Humidity: {currentData.relative_humidity_2m} %
+                        </li>
+                        <li className="currentData-ul_li">
+                          Wind Speed: {currentData.wind_speed_10m} km/h
+                        </li>
+                        <li className="currentData-ul_li">
+                          Precipitation: {currentData.precipitation} mm
+                        </li>
+                      </ul>
+                      <button className="chart-button" onClick={handleChart}>
+                        {toggleChart === false ? (
+                          <span>
+                            Swap to the{" "}
+                            <span className="precipitation">precipitation</span>{" "}
+                            chart
+                          </span>
+                        ) : (
+                          <span>
+                            Swap to the{" "}
+                            <span className="temperature">temperature</span>{" "}
+                            chart
+                          </span>
+                        )}
+                      </button>
+                    </div>
                     {toggleChart === false ? (
                       <ResponsiveContainer
                         width="95%"
@@ -278,7 +284,7 @@ export default function App() {
                           <CartesianGrid strokeDasharray="3 3" stroke="#fff" />
                           <XAxis
                             dataKey="time"
-                            tick={{ fill: "red" }}
+                            tick={{ fill: "whitesmoke"}}
                             tickFormatter={(time) => `${time} h`}
                           />
                           <YAxis
@@ -317,7 +323,7 @@ export default function App() {
                           <CartesianGrid strokeDasharray="3 3" stroke="#fff" />
                           <XAxis
                             dataKey="time"
-                            tick={{ fill: "red" }}
+                            tick={{ fill: "whitesmoke" }}
                             tickFormatter={(time) => `${time} h`}
                           />
                           <YAxis

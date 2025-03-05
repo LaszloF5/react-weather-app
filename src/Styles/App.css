@@ -15,42 +15,65 @@
   background-attachment: fixed;
 }
 
+.card-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  height: auto;
+  text-align: center;
+}
+
+.city-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .currentData-ul {
   width: 250px;
   height: 170px;
-  position: absolute;
   top: 20px;
   left: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #555;
+  color: whitesmoke;
+  border-radius: 5px;
   list-style-type: none;
   font-size: 18px;
   margin: 0;
-  padding: 10px;
-  color: whitesmoke;
+  padding: 10px 20px;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
   z-index: 1;
 }
 
-/* .currentData-ul::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.city-name {
+  width: 250px;
+  top: 20px;
+  left: 50%;
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
-  z-index: -1; 
-} */
+  color: #ddd;
+  border: 2px solid #555;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 0;
+}
 
-h1 {
-  margin-top: 0;
+.city {
+  font-weight: bold;
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
 }
 
 .chart-button {
-  width: 270px;
-  position: absolute;
+  width: 294px;
   top: 20px;
   right: 20px;
   background-color: rgba(0, 0, 0, 0.5);
@@ -64,22 +87,21 @@ h1 {
   transition: background-color 0.3s, border-color 0.3s;
 }
 
-.city-name {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #ddd;
-  border: 2px solid #555;
-  border-radius: 5px;
-  padding: 10px 20px;
-  transform: translateX(-50%);
+.chart-button:hover {
+  background-color: #333;
+  border-color: #666;
 }
 
-.city {
-  font-weight: bold;
-  font-style: italic;
+.chart-button:active {
+  background-color: #222;
+  border-color: #777;
 }
+
+
+h1 {
+  margin-top: 0;
+}
+
 
 .temperature {
   color: #8884d8;
@@ -101,7 +123,39 @@ h1 {
 
 .chart-style {
   position: absolute;
-  top: 50%;
+  bottom: 1%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
+}
+
+@media screen and (max-width: 992px) {
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .city-name {
+    position: static;
+    margin: 5px 0;
+    text-align: center;
+  }
+
+  .currentData-ul {
+    position: static;
+    margin: 5px 0;
+    height: auto;
+  }
+
+  .chart-button {
+    position: static;
+    margin: 5px 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .homePage {
+    height: 110vh;
+  }
 }
