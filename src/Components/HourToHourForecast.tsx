@@ -39,6 +39,7 @@ interface HourToHourForecastProps {
   hourlyUnits: Units;
   sunrise: string;
   sunset: string;
+  isTableMobileView: boolean;
 }
 
 const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
@@ -46,6 +47,7 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
   hourlyUnits,
   sunrise,
   sunset,
+  isTableMobileView
 }) => {
     useEffect(() => {
       document.title = "Weather info | Hour to hour forecast";
@@ -55,7 +57,26 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
       {hourlyData.time.length > 0 ? (
         <>
           <h2 className="HTH-h2">Hour to hour forecast</h2>
-          <table>
+          {isTableMobileView ? (<div className="HourToHourForecast-list-container">
+            {hourlyData.time.map((date, index) => (
+              <ul key={index} className="forecast-ul">
+                <li className="time">{date.replace("T", " ")}</li>
+                <li>Temperature: {hourlyData.temperature_2m[index]} {hourlyUnits.temperature_2m}</li>
+                <li>Humidity: {hourlyData.relative_humidity_2m[index]} {hourlyUnits.relative_humidity_2m}</li>
+                <li>Dew Point: {hourlyData.dew_point_2m[index]} {hourlyUnits.dew_point_2m}</li>
+                <li>Precipitation: {hourlyData.precipitation[index]} {hourlyUnits.precipitation}</li>
+                <li>Precip. Prob: {hourlyData.precipitation_probability[index]} {hourlyUnits.precipitation_probability}</li>
+                <li>Cloud Cover: {hourlyData.cloud_cover[index]} {hourlyUnits.cloud_cover}</li>
+                <li>Visibility: {hourlyData.visibility[index]} {hourlyUnits.visibility}</li>
+                <li>Wind Speed: {hourlyData.wind_speed_10m[index]} {hourlyUnits.wind_speed_10m}</li>
+                <li>Wind Direction: {hourlyData.wind_direction_10m[index]}°</li>
+                <li>Wind Gusts: {hourlyData.wind_gusts_10m[index]} {hourlyUnits.wind_gusts_10m}</li>
+                <li>Soil Temp: {hourlyData.soil_temperature_0cm[index]} {hourlyUnits.soil_temperature_0cm}</li>
+                <li>Soil Moisture: {hourlyData.soil_moisture_0_to_1cm[index]} {hourlyUnits.soil_moisture_0_to_1cm}</li>
+              </ul>
+            ))}
+          </div>) :
+          (<table>
             <thead>
               <tr>
                 <th>Time</th>
@@ -115,7 +136,7 @@ const HourToHourForecast: React.FC<HourToHourForecastProps> = ({
                 );
               })}
             </tbody>
-          </table>
+          </table> )}
         </>
       ) : (
         <p className="response-p">No data available!</p>

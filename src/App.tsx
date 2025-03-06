@@ -70,16 +70,43 @@ interface Units {
 }
 
 export default function App() {
+
+ const [isVisibleArrow, setIsVisibleArrow] = useState<boolean>(false);
+
+ useEffect(() => {
+  const handleArrow = () => {
+    setIsVisibleArrow(window.scrollY > 50);
+  }
+
+  window.addEventListener("scroll", handleArrow);
+
+  handleArrow();
+
+  return () => window.removeEventListener("scroll", handleArrow);
+
+ }, []);
+
+ const handleScrollTop = () => {
+   window.scrollTo({ top: 0, behavior: "smooth" });
+ }
+
   const [reminder, setReminder] = useState<boolean>(false);
 
   /* Responsive children components */
 
   const [isMobileView, setIsMobileView] = useState<boolean>(window.innerWidth < 700);
+  const [isTableMobileView, setIsTableMobileView] = useState<boolean>(window.innerWidth < 1200);
 
   useEffect(() => {
     const handleResize = () => setIsMobileView(window.innerWidth < 700);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, [])
+
+  useEffect(() => {
+    const handleTableResize = () => setIsTableMobileView(window.innerWidth < 1200);
+    window.addEventListener("resize", handleTableResize);
+    return () => window.removeEventListener("resize", handleTableResize);
   }, [])
 
   useEffect(() => {
@@ -187,16 +214,13 @@ export default function App() {
     setSunrise(data.daily.sunrise[0].slice(11).replace(":", ""));
     setSunset(data.daily.sunset[0].slice(11).replace(":", ""));
 
-    console.log("Hőmérséklet: ", temperature24h);
-    console.log("Csapadék: ", precipitation24h);
-
     const newDataChart = temperature24h.map((temp, i) => ({
       time: i,
       temperature: parseFloat(temp),
       precipitation: parseFloat(precipitation24h[i]),
     }));
 
-    console.log("DataChart: ", newDataChart);
+    console.log("Hourly data: ", data.hourly);
     setDataChart(newDataChart);
   };
 
@@ -222,6 +246,7 @@ export default function App() {
   return (
     <div className="App">
       <Router>
+        {isVisibleArrow && <img onClick={handleScrollTop} className="arrow-top" src={process.env.PUBLIC_URL + 'react-weather-app-arrow.png'} alt="top arrow"/>}
         <Header
           setToggleLocationForm={setToggleLocationForm}
           handleReminder={handleReminder}
@@ -383,6 +408,7 @@ export default function App() {
                 hourlyUnits={hourlyUnits}
                 sunrise={sunrise}
                 sunset={sunset}
+                isTableMobileView={isTableMobileView}
               />
             }
           />
@@ -392,7 +418,3 @@ export default function App() {
   );
 }
 
-/*
-  TODO:
-  Responsive design!
-*/

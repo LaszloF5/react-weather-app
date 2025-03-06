@@ -2,6 +2,16 @@
   text-align: center;
 }
 
+.arrow-top {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  cursor: pointer;
+}
+
 .homePage {
   position: relative;
   margin: 0;
