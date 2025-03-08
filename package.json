@@ -2,6 +2,7 @@
   "name": "react-weather-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://LaszloF5.github.io/react-weather-app",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -24,7 +25,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@types/victory": "^33.1.5"
+    "@types/victory": "^33.1.5",
+    "gh-pages": "^6.3.0"
   }
 }
