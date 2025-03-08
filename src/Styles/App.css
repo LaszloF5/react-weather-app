@@ -1,0 +1,171 @@
+.App {
+  text-align: center;
+}
+
+.arrow-top {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.homePage {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  height: calc(100vh - 50px);
+  width: 100%;
+  background-image: url("../Styles/sun-dark-clouds-bg.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.card-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  height: auto;
+  text-align: center;
+}
+
+.city-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.currentData-ul {
+  width: 250px;
+  height: 170px;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #555;
+  color: whitesmoke;
+  border-radius: 5px;
+  list-style-type: none;
+  font-size: 18px;
+  margin: 0;
+  padding: 10px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.city-name {
+  width: 250px;
+  top: 20px;
+  left: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ddd;
+  border: 2px solid #555;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 0;
+}
+
+.city {
+  font-weight: bold;
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+}
+
+.chart-button {
+  width: 294px;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ddd;
+  border: 2px solid #555;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.chart-button:hover {
+  background-color: #333;
+  border-color: #666;
+}
+
+.chart-button:active {
+  background-color: #222;
+  border-color: #777;
+}
+
+
+h1 {
+  margin-top: 0;
+}
+
+
+.temperature {
+  color: #8884d8;
+}
+
+.precipitation {
+  color: #82ca9d;
+}
+
+.chart-button:hover {
+  background-color: #333;
+  border-color: #666;
+}
+
+.chart-button:active {
+  background-color: #222;
+  border-color: #777;
+}
+
+.chart-style {
+  position: absolute;
+  bottom: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media screen and (max-width: 992px) {
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .city-name {
+    position: static;
+    margin: 5px 0;
+    text-align: center;
+  }
+
+  .currentData-ul {
+    position: static;
+    margin: 5px 0;
+    height: auto;
+  }
+
+  .chart-button {
+    position: static;
+    margin: 5px 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .homePage {
+    height: 110vh;
+  }
+}

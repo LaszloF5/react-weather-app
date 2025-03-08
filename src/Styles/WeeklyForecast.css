@@ -1,0 +1,54 @@
+.weekly-h2 {
+    color: whitesmoke;
+    margin-bottom: 10px;
+}
+
+.weekly-container {
+    min-height: calc(100vh - 50px);
+    background-image: url("../Styles/sky-sunset-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.weekly-table {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* UL style*/
+
+.weekly-ul {
+    margin: 25px auto;
+    color: black;
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    font-weight: bold;
+    list-style-type: none;
+}
+
+.weekly-ul::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    pointer-events:  none;
+}
+
+.weekly-ul li:nth-of-type(1) {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: whitesmoke;
+}
+
+.weekly-ul:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 25px;
+}
