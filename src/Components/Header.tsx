@@ -1,6 +1,6 @@
 import React from 'react';
 import "../Styles/Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface HeaderProps {
     setToggleLocationForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,8 +9,11 @@ interface HeaderProps {
 
 const Header = ({setToggleLocationForm, handleReminder}: HeaderProps) => {
 
+    const navigate = useNavigate();
+
     const handleClick = (): void => {
         setToggleLocationForm(false);
+        navigate('/');
     }
     
     return (

@@ -193,7 +193,6 @@ export default function App() {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
-    console.log("Data from currentCity: ", data);
 
     setCityInfo({
       weather: data,
@@ -220,7 +219,6 @@ export default function App() {
       precipitation: parseFloat(precipitation24h[i]),
     }));
 
-    console.log("Hourly data: ", data.hourly);
     setDataChart(newDataChart);
   };
 
@@ -417,4 +415,3 @@ export default function App() {
     </div>
   );
 }
-

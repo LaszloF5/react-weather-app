@@ -22,7 +22,6 @@ const WeeklyForecast: React.FC<WeeklyForecastProps> = ({
 }) => {
   useEffect(() => {
     document.title = "Weather info | Weekly forecast";
-    console.log("Weekly data: ", weeklyData);
   }, []);
 
   return (
